@@ -18,7 +18,7 @@ password_input = input("Enter your password : ")
 user_details(user_input,password_input)
 
 #to login using same password and username
-
+is_logged_in  = False
 def login():
     print("There are only 10 trials to login :")
     count = 10
@@ -46,6 +46,7 @@ file_objective.close()
 #to retrieve the login
 
 def retrieve_login():
+    is_logged_in = True
     print("There are only 5 trials to login :")
     count = 5
     while 0<5:
@@ -76,11 +77,14 @@ def change_in_items():
             item_quantity = int(input("Enter the quantity : "))
             list_of_items.append([item_add,item_quantity])
 
+
     elif add_remove == 'remove':
         for j in range(0,item_number_remove):
             item_remove = input("Enter the item to remove :")
             item_remove_quantity = int(input("Enter the quantity"))
             list_of_items.remove([item_remove,item_remove_quantity])
+
+
 
 print("Do the necessary changes required with the list of items ")
 change_in_items()
@@ -101,5 +105,8 @@ change_in_quantity()
 def logout():
     log_user = input("Please type 'logout' to exit : ")
     if log_user == 'logout':
-        exit()
+        is_logged_in = False
+        break
+        
+
 
