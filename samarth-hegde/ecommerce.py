@@ -15,58 +15,62 @@ def user_cart(user_name, user_password):
         user_cart_item = {}
         user_activity_status = True
         user_cart_data = open(f'{user_name}_cart.txt', 'a+')
+        with open(f'{user_name}_cart.txt','r') as initial_value:
+            for line in initial_value:
+                (key, value) = line.split(':')
+                user_cart_item[str(key).strip()] = str(value).strip()
+
         while user_activity_status:
             print("Please select only respective numbers.")
             print("1.Add to cart 2.Delete from cart 3.Modify quantity 4.View Cart 5.Logout 6.Delete my Account \n")
             user_activity = int(input())
+
             if user_activity == 1:
                 item_name = input("Enter item name: \t")
                 item_quantity = input(f"Enter {item_name} quantity:\t ")
                 user_cart_item[item_name] = item_quantity
-                for key, value in user_cart_item.items():
-                    user_cart_data.write(key+' : '+value+'\n')
                 print("Your cart has:")
-                user_cart_data.seek(0)
-                print(user_cart_data.read())
+                for key, value in user_cart_item.items():
+                    print(f"{key} : {value}")
 
             elif user_activity == 2:
-                item_name = input("Enter item name to delete:\t")
-
-                if item_name in user_cart_item.keys():
+                item_name = str(input("Enter item name to delete:\t"))
+                if user_cart_item.get(item_name):
                     del user_cart_item[item_name]
                     print(f'{item_name} deleted!')
-                    for key, value in user_cart_item.items():
-                        user_cart_data.write(key + ' : ' + value + '\n')
                 else:
                     print("Item not found!")
 
                 print("Your cart has:")
-                user_cart_data.seek(0)
-                print(user_cart_data.read())
+                for key, value in user_cart_item.items():
+                    print(f"{key} : {value}")
 
             elif user_activity == 3:
                 item_name = input("Enter item name to modify.\t")
                 item_quantity = input("Enter quantity to update.\t")
                 updated_item_set = {item_name: item_quantity}
                 user_cart_item.update(updated_item_set)
-                for key, value in user_cart_item.items():
-                    user_cart_data.write(key + ' : ' + value + '\n')
                 print("Your cart has:")
-                user_cart_data.seek(0)
-                print(user_cart_data.read())
+                for key, value in user_cart_item.items():
+                    print(f"{key} : {value}")
 
             elif user_activity == 4:
                 print("Your cart has:")
-                user_cart_data.seek(0)
-                print(user_cart_data.read())
+                if bool(user_cart_item):
+                    for key, value in user_cart_item.items():
+                        print(f"{key} : {value}")
+                else:
+                    print("No item")
 
             elif user_activity == 5:
                 user_activity_status = False
+                for key, value in user_cart_item.items():
+                    user_cart_data.write(f'{key} : {value}\n')
                 user_cart_data.close()
 
             elif user_activity == 6:
                 user_cart_data.close()
-                acknowledgment = user_delete_request(user_name,user_password)
+                acknowledgment = user_delete_request(user_name, user_password)
                 if acknowledgment:
                     print(f"{user_name} Account deleted!")
                     break
@@ -100,7 +104,7 @@ def user_login():
     user_name_match = False
     user_password_match = False
     if os.path.exists(f'{user_name}.txt'):
-        with open(f'{user_name}.txt','r') as user_credintial:
+        with open(f'{user_name}.txt', 'r') as user_credintial:
             user_credintial.seek(0)
             for data in user_credintial:
                 if user_password == data:
@@ -113,7 +117,7 @@ def user_login():
 
     if user_password_match and user_name_match:
         print(f"Welcome! {user_name}!")
-        user_cart(user_name,user_password)
+        user_cart(user_name, user_password)
 
     else:
         print("Sorry! your credentials are wrong")
