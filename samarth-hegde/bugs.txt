@@ -1,0 +1,4 @@
+1. Allowing me to registers with the same username but isn't storing that information. Create two users with the same username "varun" and different passwords.
+if a username already exists, shouldn't allow a user to register with that username
+2. Update quantity should only allow updating of existing items, shouldn't add items that don't exist.
+3. There's no option to exit the app
