@@ -4,11 +4,12 @@ dict_of_user = {}
 
 def user_details(user_input,password_input):
     file_object = open("details.txt","w+")
-    text = f"User name is - {user_input}\n"
-    text_2 = f"The password is -{password_input}"
+    text =  user_input
+    text_2 =password_input
     dict_of_user[text] = text_2
-    file_object.write(text)
-    file_object.write(text_2)
+    # file_object.write(text)
+    # file_object.write(text_2)
+    file_object.write(str(dict_of_user))
     file_object.close()
 
 
@@ -28,12 +29,13 @@ def login():
         if user_name == user_input and user_password == password_input:
             print("Welcome to the shopping world")
             break
+
         else:
             count += 1
 login()
 
-number = int(input("Enter the number of items : "))
-file_objective = open("shopping-cart.txt", "w+")
+number = int(input("Enter the number of items to be added : "))
+file_objective = open("shopping-cart.txt", "a+")
 dict_of_items = {}
 for i in range(0, number):
     items= input("Enter the list of items : ")
@@ -68,26 +70,32 @@ print(list_of_items)
 
 #to add,remove items from the cart
 def change_in_items():
-    item_number_add = int(input("Enter the number of items to be added :"))
-    item_number_remove = int(input("Enter the number of items to be removed : "))
-    add_remove = input("Do you like to add or remove the items : ")
-    if add_remove == 'add':
+
+    add_remove = input("Do you like to add the items : ")
+
+    if add_remove == 'yes':
+        item_number_add = int(input("Enter the number of items to be added :"))
         for i in range(0,item_number_add):
             item_add = input("Enter the item to be added : ")
             item_quantity = int(input("Enter the quantity : "))
             list_of_items.append([item_add,item_quantity])
 
 
-    elif add_remove == 'remove':
-        for j in range(0,item_number_remove):
+    add_remove = input("Do you like to remove the items : ")
+
+
+    if add_remove == 'yes':
+        item_number_remove = int(input("Enter the number of items to be removed : "))
+        for j in range(0, item_number_remove):
             item_remove = input("Enter the item to remove :")
             item_remove_quantity = int(input("Enter the quantity"))
-            list_of_items.remove([item_remove,item_remove_quantity])
+            list_of_items.remove([item_remove, item_remove_quantity])
 
 
-
-print("Do the necessary changes required with the list of items ")
 change_in_items()
+print("Do the necessary changes required with the list of items ")
+
+
 
 #to change the Quantity
 
@@ -98,15 +106,35 @@ def change_in_quantity():
     for i in range(0,number_of_quantity):
         items_of_quantity = input("Enter the item of which quantity to be changed: ")
         quantity_to_be_changed= int(input("Enter the quantity :"))
-        dict_of_items[input(items_of_quantity)]= quantity_to_be_changed
+        dict_of_items[items_of_quantity)]= quantity_to_be_changed
 
 change_in_quantity()
+changes_update = dict_of_items
+file_objective.append(changes_update)
 
 def logout():
     log_user = input("Please type 'logout' to exit : ")
     if log_user == 'logout':
         is_logged_in = False
-        break
-        
+
+login()
+def delete():
+    delete_input = input("Type delete) to delete or to read the list(type read)  : ")
+    if user_name == user_input and user_password == password_input:
+    if delete_input == 'delete':
+        del(file_objective)
+        del(file_object)
+    if delete_input = 'read':
+
+
+
+
+
+
+
+
+
+
+
 
 
