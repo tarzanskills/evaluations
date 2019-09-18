@@ -14,12 +14,11 @@ def user_cart(user_name, user_password):
     try:
         user_cart_item = {}
         user_activity_status = True
-        user_cart_data = open(f'{user_name}_cart.txt', 'a+')
-        with open(f'{user_name}_cart.txt','r') as initial_value:
+        with open(f'{user_name}_cart.txt', 'a+') as initial_value:
             for line in initial_value:
                 (key, value) = line.split(':')
                 user_cart_item[str(key).strip()] = str(value).strip()
-
+        user_cart_data = open(f'{user_name}_cart.txt', 'w')
         while user_activity_status:
             print("Please select only respective numbers.")
             print("1.Add to cart 2.Delete from cart 3.Modify quantity 4.View Cart 5.Logout 6.Delete my Account \n")
@@ -47,9 +46,12 @@ def user_cart(user_name, user_password):
 
             elif user_activity == 3:
                 item_name = input("Enter item name to modify.\t")
-                item_quantity = input("Enter quantity to update.\t")
-                updated_item_set = {item_name: item_quantity}
-                user_cart_item.update(updated_item_set)
+                if item_name in user_cart_item.keys():
+                    item_quantity = input("Enter quantity to update.\t")
+                    updated_item_set = {item_name: item_quantity}
+                    user_cart_item.update(updated_item_set)
+                else:
+                    print(f"Item {item_name} Not found in cart!")
                 print("Your cart has:")
                 for key, value in user_cart_item.items():
                     print(f"{key} : {value}")
@@ -90,7 +92,6 @@ def user_registration():
         return False
     else:
         user_registration_data = open(f'{user_name}.txt', 'w')
-        # user_credential = {user_name: user_password}
         user_registration_data.write(user_password)
         user_registration_data.close()
         return True
@@ -99,8 +100,6 @@ def user_registration():
 def user_login():
     user_name = input("Please enter user name:\t")
     user_password = input("Please enter password:\t")
-    # find_user = f"'{user_name}': '{user_password}'"
-    # find_user = '{'+find_user
     user_name_match = False
     user_password_match = False
     if os.path.exists(f'{user_name}.txt'):
@@ -133,17 +132,20 @@ if __name__ == "__main__":
 
             print("Please select one of below options:")
 
-            user_registration_status = str(input("1.New user or 2.Login \n"))
+            user_registration_status = str(input("1.New user or 2.Login 3.Shutdown System\n"))
             user_registration_status = user_registration_status.lower().strip()
 
             if user_registration_status == '1' or user_registration_status == 'newuser' or user_registration_status == 'new user':
-                user_registration()
+                user_registration_status = user_registration()
                 if user_registration_status:
                     print("Congratulations!!! Registration successful. Please login by choosing login option.")
                 else:
                     print("Sorry!!! something wrong. Please try again.")
             elif user_registration_status == '2' or user_registration_status == 'login':
                 user_login()
+            elif user_registration_status == '3' or user_registration_status == 'shutdown systems' or user_registration_status=='shutdownsystem':
+                print("Good Bye!")
+                program_status = False
             else:
                 continue
 
