@@ -15,13 +15,15 @@ def user_cart(user_name, user_password):
         user_cart_item = {}
         user_activity_status = True
         with open(f'{user_name}_cart.txt', 'a+') as initial_value:
+            initial_value.seek(0)
             for line in initial_value:
                 (key, value) = line.split(':')
                 user_cart_item[str(key).strip()] = str(value).strip()
         user_cart_data = open(f'{user_name}_cart.txt', 'w')
         while user_activity_status:
             print("Please select only respective numbers.")
-            print("1.Add to cart 2.Delete from cart 3.Modify quantity 4.View Cart 5.Logout 6.Delete my Account \n")
+            print("1.Add to cart\t 2.Delete from cart\t 3.Modify quantity\t 4.View Cart\t 5.Logout\t 6.Delete my "
+                  "Account \n")
             user_activity = int(input())
 
             if user_activity == 1:
@@ -132,7 +134,7 @@ if __name__ == "__main__":
 
             print("Please select one of below options:")
 
-            user_registration_status = str(input("1.New user or 2.Login 3.Shutdown System\n"))
+            user_registration_status = str(input("1.New user\t 2.Login\t 3.Shutdown System\n"))
             user_registration_status = user_registration_status.lower().strip()
 
             if user_registration_status == '1' or user_registration_status == 'newuser' or user_registration_status == 'new user':
